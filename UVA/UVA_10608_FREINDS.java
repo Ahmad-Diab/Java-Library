@@ -1,0 +1,167 @@
+package UVA;
+
+
+import java.io.*;
+import java.util.*;
+
+public class UVA_10608_FREINDS {
+
+	public static void main(String[] args) throws Exception{
+		Scanner sc = new Scanner (System.in);
+		PrintWriter out = new PrintWriter(System.out);
+	
+		int tests = sc.nextInt();
+		
+		while(tests -->0)
+		{
+			int n = sc.nextInt();
+			int m = sc.nextInt();
+			DSU uf = new DSU(n+1);
+			
+			while(m-->0)
+			{
+				int u = sc.nextInt();
+				int v = sc.nextInt();
+				uf.union(u, v);
+				
+			}
+			
+			out.println(uf.max);
+			
+		}
+		
+		out.flush();
+		out.close();
+		
+		
+		
+		
+		
+	}
+	
+	static class DSU {
+		
+		int sets ; 
+		int []  size , p , rank;
+		int max = 1 ;
+		
+		public DSU(int n)
+		{
+			size = new int [n];
+			p = new int [n];
+			rank = new int [n];
+			
+			for(int i = 0 ; i < n ; i++)
+				p[i] = i;
+			
+			Arrays.fill(size, 1);
+			
+		}
+		
+		int findSet (int x) {
+			
+			return x == p[x] ? x : (p[x] = findSet(p[x]));
+			
+		}
+		
+		boolean isSame(int x , int y)
+		{
+			
+			return findSet(x) == findSet(y);
+		}
+		
+		boolean union (int x , int y){
+
+			if(!isSame(x, y))
+			{
+				
+				int i = findSet(x);
+				int j = findSet(y);
+				
+				if(rank[i] > rank[j])
+				{
+					size [i] += size[j];
+					p[j] = i;
+					max = Math.max(size[i], max);
+					
+				}
+				else {
+					p[i] = j ;
+					size[j] += size[i];
+					
+					if(rank[i] == rank[j] ) rank[j]++;
+					max = Math.max(size[j], max);
+					
+				}
+				
+				
+				
+				
+				return true ;
+				
+			}
+			
+			return false ;
+		}
+		
+		
+	}
+	
+	static class Scanner {
+		StringTokenizer st;
+		BufferedReader br;
+
+		public Scanner(InputStream s) {
+			br = new BufferedReader(new InputStreamReader(s));
+		}
+
+		public String next() throws IOException {
+			while (st == null || !st.hasMoreTokens())
+				st = new StringTokenizer(br.readLine());
+			return st.nextToken();
+		}
+
+		public int nextInt() throws IOException {
+			return Integer.parseInt(next());
+		}
+
+		public long nextLong() throws IOException {
+			return Long.parseLong(next());
+		}
+
+		public String nextLine() throws IOException {
+			return br.readLine();
+		}
+
+		public double nextDouble() throws IOException {
+			String x = next();
+			StringBuilder sb = new StringBuilder("0");
+			double res = 0, f = 1;
+			boolean dec = false, neg = false;
+			int start = 0;
+			if (x.charAt(0) == '-') {
+				neg = true;
+				start++;
+			}
+			for (int i = start; i < x.length(); i++)
+				if (x.charAt(i) == '.') {
+					res = Long.parseLong(sb.toString());
+					sb = new StringBuilder("0");
+					dec = true;
+				} else {
+					sb.append(x.charAt(i));
+					if (dec)
+						f *= 10;
+				}
+			res += Long.parseLong(sb.toString()) / f;
+			return res * (neg ? -1 : 1);
+		}
+
+		public boolean ready() throws IOException {
+			return br.ready();
+		}
+
+	}
+
+
+}
