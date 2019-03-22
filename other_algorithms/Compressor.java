@@ -2,14 +2,16 @@ package other_algorithms;
 
 import java.util.*;
 
-class Compressor
+class Compressor<T> implements Iterable<T>
 {
-	TreeSet<Long> set = new TreeSet<>();
-	HashMap<Long, Integer> map = new HashMap<>();
+	TreeSet<T> set = new TreeSet<>() ; 
+	HashMap<T , Integer> map = new HashMap<>() ; 
+	
+	void add(T x) {set.add(x);}
+	
+	void fix() {for(T x : set) map.put(x, map.size()) ;}
+	
+	int get(T x) {return map.get(x) ;}
 
-	void add(long x) { set.add(x); }
-
-	void fix() { for(long x: set) map.put(x, map.size()); }
-
-	int get(long x) { return map.get(x); }
+	public Iterator<T> iterator() {return set.iterator();}
 }

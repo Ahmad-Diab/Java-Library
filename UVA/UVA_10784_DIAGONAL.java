@@ -9,7 +9,7 @@ public class UVA_10784_DIAGONAL
    {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(System.out) ;
-
+        
         int cases = 1 ;
         while(true)
         {
