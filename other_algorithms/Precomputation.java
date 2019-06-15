@@ -29,5 +29,19 @@ public class Precomputation {
 
 	}
 
+	// 3. precomute multiplicative inverse
 
+	static int [] inv ;
+
+	static void computeInv(int N , int MOD) // MOD must be prime
+	{
+		inv = new int [N + 1] ;
+		inv[1] = 1 ;
+		for(int i = 2 ; i<= N ; i++)
+		{
+			inv[i] =(int)((-(MOD / i) * 1L * inv[MOD % i] % MOD));
+			inv[i] += MOD ;
+			inv[i] %= MOD ;
+		}
+	}
 }
