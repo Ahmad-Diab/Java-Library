@@ -1,18 +1,28 @@
 package geometry;
 
-public class Circle { 	//equation: (x-c.x)^2 + (y-c.y)^2 = r^2
+public class Circle
+{ 	//equation: (x-c.x)^2 + (y-c.y)^2 = r^2
 
 	static final double EPS = 1e-9;
 	
 	Point c;
 	double r;
 
+	Circle(Point a , Point b , Point c) // construct Circle with 3 Points
+	{
+		Point x = a.translate(new Vector(a , b).normalize().scale(a.dist(b) / 2.0)) ;
+		Point y = a.translate(new Vector(a , c).normalize().scale(a.dist(c) / 2.0));
+		Line l1 = new Line(x , a.rotate(90 , x)) ;
+		Line l2 = new Line(y , a.rotate(90 , y)) ;
+		this.c = l1.intersect(l2) ;
+		r = a.dist(c) ;
+	}
+
 	Circle(Point p, double k) { c = p; r = k; }
 
 	int inside(Point p)	//1 for inside, 0 for border, -1 for outside
 	{
 		double d = p.dist(c);
-
 		return d + EPS < r ? 1 : Math.abs(d - r) < EPS ? 0 : -1;
 	}
 
